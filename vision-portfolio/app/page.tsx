@@ -1,9 +1,10 @@
-import Scene from "@/components/Scene"
+import HeroMonolith from "@/components/monolith/HeroMonolith"
+
 
 export default function Home() {
   return (
-    <main style={{ height: "100vh", background: "#000" }}>
-      <Scene />
-    </main>
+    <>
+      <HeroMonolith />
+    </>
   )
 }
