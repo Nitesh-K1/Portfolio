@@ -3,16 +3,21 @@
 import { motion } from "framer-motion"
 import Scene from "@/components/three/Scene"
 
-export default function HeroMonolith() {
+// Add this interface
+interface HeroMonolithProps {
+  scrollToContent?: () => void;
+}
+
+export default function HeroMonolith({ scrollToContent }: HeroMonolithProps = {}) {
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-b from-[#0E1116] via-[#0B0D10] to-black">
       <Scene />
-      <div className="pointer-events-none absolute inset-0 z-5 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.6)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 z-5 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(105, 84, 84, 0.6)_100%)]" />
       <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="relative z-10 h-full flex flex-col items-center justify-center text-center"
+        className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white"
       >
         <h1 className="text-6xl md:text-7xl font-medium tracking-[-0.02em]">
           NITESH
@@ -21,7 +26,10 @@ export default function HeroMonolith() {
           Digital Systems Designer & Engineer
         </p>
 
-        <button className="mt-12 px-7 py-3 rounded-full border border-white/20 hover:border-white/40 backdrop-blur-md transition">
+        <button
+          onClick={scrollToContent}  // Now this is defined via props
+          className="mt-12 px-7 py-3 rounded-full border border-white/20 hover:border-white/40 backdrop-blur-md transition cursor-pointer"
+        >
           Enter Interface
         </button>
       </motion.div>
