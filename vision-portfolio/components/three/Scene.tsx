@@ -93,20 +93,26 @@ function PortfolioPanel({
 }
 
 export default function Scene({ entered }: SceneProps) {
-  const { camera } = useThree()
+  // CameraController must be rendered inside the Canvas so hooks work
+  function CameraController({ entered }: SceneProps) {
+    const { camera } = useThree()
 
-  useFrame(() => {
-    if (entered) {
-      camera.position.lerp(new THREE.Vector3(0, 1.5, 9), 0.05)
-      camera.lookAt(0, 1, 0)
-    } else {
-      camera.position.lerp(new THREE.Vector3(0, 1, 4), 0.05)
-    }
-  })
+    useFrame(() => {
+      if (entered) {
+        camera.position.lerp(new THREE.Vector3(0, 1.5, 9), 0.05)
+        camera.lookAt(0, 1, 0)
+      } else {
+        camera.position.lerp(new THREE.Vector3(0, 1, 4), 0.05)
+      }
+    })
+
+    return null
+  }
 
   return (
     <Canvas>
       <PerspectiveCamera makeDefault position={[0, 1, entered ? 9 : 4]} fov={55} />
+      <CameraController entered={entered} />
 
       <OrbitControls
         enablePan={false}
