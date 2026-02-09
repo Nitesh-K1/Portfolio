@@ -24,10 +24,10 @@ export default function ContactModule() {
       </motion.p>
 
       <motion.a
-        href="mailto:your.email@example.com"
+        href="mailto:niteshkafle23@gmail.com"
         className="inline-block px-8 py-4 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-md transition text-lg mb-12"
       >
-        your.email@example.com
+        niteshkafle23@gmail.com
       </motion.a>
 
       <div className="flex justify-center gap-8">
@@ -44,16 +44,6 @@ export default function ContactModule() {
           </motion.a>
         ))}
       </div>
-
-      {/* Optional simple form — replace action with Formspree/EmailJS endpoint */}
-      {/* <form action="https://formspree.io/f/yourformid" method="POST" className="mt-12 max-w-md mx-auto space-y-6">
-        <input type="text" name="name" placeholder="Name" required className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10" />
-        <input type="email" name="email" placeholder="Email" required className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10" />
-        <textarea name="message" placeholder="Message" rows={5} required className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10"></textarea>
-        <button type="submit" className="px-8 py-4 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-md transition">
-          Send Message
-        </button>
-      </form> */}
     </section>
   )
 }

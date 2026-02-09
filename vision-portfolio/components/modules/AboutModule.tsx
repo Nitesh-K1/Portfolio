@@ -23,7 +23,7 @@ export default function AboutModule() {
         >
           <div className="relative aspect-square rounded-2xl overflow-hidden border border-white/10">
             <Image
-              src="/your-photo.jpg" // Replace with your actual photo
+              src=""
               alt="Nitesh"
               fill
               className="object-cover"

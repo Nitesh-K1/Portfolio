@@ -1,17 +1,18 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
 import Scene from "@/components/three/Scene"
-
-// Add this interface
 interface HeroMonolithProps {
   scrollToContent?: () => void;
 }
 
 export default function HeroMonolith({ scrollToContent }: HeroMonolithProps = {}) {
+  const [entered, setEntered] = useState(false)
+
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-b from-[#0E1116] via-[#0B0D10] to-black">
-      <Scene />
+      <Scene entered={entered} />
       <div className="pointer-events-none absolute inset-0 z-5 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(105, 84, 84, 0.6)_100%)]" />
       <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
@@ -27,7 +28,7 @@ export default function HeroMonolith({ scrollToContent }: HeroMonolithProps = {}
         </p>
 
         <button
-          onClick={scrollToContent}  // Now this is defined via props
+          onClick={scrollToContent}
           className="mt-12 px-7 py-3 rounded-full border border-white/20 hover:border-white/40 backdrop-blur-md transition cursor-pointer"
         >
           Enter Interface

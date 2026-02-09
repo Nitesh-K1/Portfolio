@@ -5,13 +5,12 @@ import Image from "next/image"
 
 const projects = [
   {
-    title: "Project One",
+    title: "Car Renderer",
     description: "A next-gen digital system built with React, Three.js, and Node.js. Features real-time data visualization.",
     tech: ["React", "Three.js", "Node.js", "Tailwind"],
-    link: "https://github.com/yourusername/project-one",
-    image: "/placeholder-project1.jpg", // Replace with your screenshots
+    link: "https://github.com/Nitesh-K1",
+    image: "/placeholder-project1.jpg", 
   },
-  // Add more projects here
 ]
 
 export default function ProjectsModule() {
