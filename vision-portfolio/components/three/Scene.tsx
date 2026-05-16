@@ -6,6 +6,16 @@ import { useRef, useState, useEffect } from "react"
 import { projects as projectData, Project } from "@/data/projects"
 import * as THREE from "three"
 
+const PREMIUM_GLASS_MATERIAL = {
+  transmission: 0.98,
+  thickness: 1.8,
+  roughness: 0.03,
+  clearcoat: 1,
+  clearcoatRoughness: 0,
+  ior: 1.5,
+  color: "#ffffff",
+}
+
 interface SceneProps {
   entered: boolean
 }
@@ -13,6 +23,7 @@ interface SceneProps {
 function Monolith() {
   const ref = useRef<THREE.Mesh>(null)
   const { mouse } = useThree()
+  const [hovered, setHovered] = useState(false)
 
   useFrame(() => {
     if (ref.current) {
@@ -22,34 +33,37 @@ function Monolith() {
   })
 
   return (
-    <Float speed={1} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={ref} position={[0, 1, 0]}>
+    <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.6}>
+      <mesh
+        ref={ref}
+        position={[0, 1, 0]}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
         <boxGeometry args={[1.2, 2.4, 0.35]} />
         <meshPhysicalMaterial
-          transmission={0.96}
-          thickness={1.5}
-          roughness={0.03}
-          clearcoat={1}
-          clearcoatRoughness={0}
-          color="#f8faff"
+          {...PREMIUM_GLASS_MATERIAL}
+          emissive={hovered ? "#4d7fff" : "#000000"}
+          emissiveIntensity={hovered ? 0.15 : 0.02}
         />
       </mesh>
     </Float>
   )
 }
 
-function PortfolioPanel({ 
-  position, 
-  rotation = [0, 0, 0], 
-  children, 
+function PortfolioPanel({
+  position,
+  rotation = [0, 0, 0],
+  children,
   onClick,
-}: { 
+}: {
   position: [number, number, number]
   rotation?: [number, number, number]
-  children: React.ReactNode 
+  children: React.ReactNode
   onClick?: () => void
 }) {
   const groupRef = useRef<THREE.Group>(null)
+  const meshRef = useRef<THREE.Mesh>(null)
   const [hovered, setHovered] = useState(false)
 
   useFrame(() => {
@@ -70,15 +84,9 @@ function PortfolioPanel({
     >
       <RoundedBox args={[4.8, 3.4, 0.2]} radius={0.35} smoothness={8}>
         <meshPhysicalMaterial
-          transmission={0.92}
-          roughness={0.08}
-          clearcoat={1}
-          clearcoatRoughness={0}
-          thickness={1.5}
-          color="#ffffff"
-          side={THREE.DoubleSide}
-          emissive={hovered ? "#3366ff" : "#000000"}
-          emissiveIntensity={hovered ? 0.2 : 0}
+          {...PREMIUM_GLASS_MATERIAL}
+          emissive={hovered ? "#3366ff" : "#0a0a0a"}
+          emissiveIntensity={hovered ? 0.25 : 0.08}
         />
       </RoundedBox>
 
@@ -88,7 +96,7 @@ function PortfolioPanel({
         center
         className="w-full h-full p-10 pointer-events-auto overflow-y-auto"
       >
-        <div className="bg-black/40 backdrop-blur-3xl rounded-3xl h-full p-10 text-white text-lg md:text-xl border border-white/10">
+        <div className="bg-black/50 backdrop-blur-2xl rounded-3xl h-full p-10 text-white text-lg md:text-xl border border-white/20 shadow-2xl">
           {children}
         </div>
       </Html>
@@ -98,6 +106,7 @@ function PortfolioPanel({
 
 function ProjectMonolith({ project, onSelect }: { project: Project; onSelect: (p: Project) => void }) {
   const ref = useRef<THREE.Mesh>(null)
+  const [hovered, setHovered] = useState(false)
 
   useFrame(() => {
     if (ref.current) {
@@ -106,21 +115,25 @@ function ProjectMonolith({ project, onSelect }: { project: Project; onSelect: (p
   })
 
   return (
-    <mesh ref={ref} position={project.position} onClick={() => onSelect(project)}>
+    <mesh
+      ref={ref}
+      position={project.position}
+      onClick={() => onSelect(project)}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
       <boxGeometry args={[1.2, 2.4, 0.35]} />
       <meshPhysicalMaterial
-        transmission={0.96}
-        thickness={1.5}
-        roughness={0.03}
-        clearcoat={1}
-        clearcoatRoughness={0}
-        color="#dfe8ff"
+        {...PREMIUM_GLASS_MATERIAL}
+        color="#f0f4ff"
+        emissive={hovered ? "#5577ff" : "#1a1a2e"}
+        emissiveIntensity={hovered ? 0.2 : 0.06}
       />
 
       <Html center distanceFactor={1} className="pointer-events-auto">
-        <div className="bg-black/60 rounded-xl p-4 text-white w-64 text-lg">
+        <div className="bg-black/70 backdrop-blur-lg rounded-xl p-4 text-white w-64 text-lg border border-white/15 shadow-xl">
           <h3 className="font-semibold text-2xl">{project.name}</h3>
-          <p className="text-base opacity-80">{project.description}</p>
+          <p className="text-base opacity-75">{project.description}</p>
         </div>
       </Html>
     </mesh>
@@ -184,10 +197,12 @@ export default function Scene({ entered }: SceneProps) {
         onEnd={() => setUserInteracting(false)}
       />
 
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[8, 10, 5]} intensity={1.2} />
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[10, 12, 8]} intensity={1.3} castShadow />
+      <directionalLight position={[-8, 8, -6]} intensity={0.6} color="#4d7fff" />
+      <pointLight position={[0, 3, 5]} intensity={0.4} color="#ffffff" />
 
-      <Stars radius={150} depth={60} count={8000} factor={5} saturation={0} fade speed={1} />
+      <Stars radius={150} depth={60} count={3500} factor={5} saturation={0} fade speed={0.5} />
 
       <Monolith />
 
@@ -233,7 +248,7 @@ export default function Scene({ entered }: SceneProps) {
         </>
       )}
 
-      <Environment preset="night" background intensity={0.4} />
+      <Environment preset="night" background blur={0.5} />
     </Canvas>
   )
 }

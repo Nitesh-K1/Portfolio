@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --glass-dark: rgba(10, 10, 10, 0.6);
+  --glass-light: rgba(240, 244, 255, 0.1);
+  --accent-blue: #4d7fff;
+  --text-primary: #ffffff;
+  --text-secondary: #d0d5e0;
 }
 
 @theme inline {
@@ -23,4 +28,23 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .glass-morphism {
+    background: var(--glass-dark);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+.text-premium {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(77, 127, 255, 0.3);
 }
